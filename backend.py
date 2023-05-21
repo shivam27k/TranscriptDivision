@@ -1,10 +1,6 @@
-# backend.py
-
 from flask import Flask, render_template, request, jsonify
-import openai
 
 app = Flask(__name__)
-openai.api_key = "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"
 
 
 @app.route("/")
@@ -23,8 +19,8 @@ def generate():
 
     for line in lines:
         if "question begins" in line.lower():
-            count = count + 1
-            extracted_content.append("question no." + str(count) + ":")
+            count += 1
+            extracted_content.append("question no." + str(count) + ":\n")
             should_extract = True
         elif "question ends" in line.lower():
             should_extract = False
