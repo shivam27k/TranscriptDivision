@@ -10,26 +10,26 @@ def index():
 
 @app.route("/generate", methods=["POST"])
 def generate():
-    user_input = request.form["input"]
+    input = request.form["input"]
 
-    lines = user_input.split("\n")
+    lines = input.split("\n")
     should_extract = False
-    extracted_content = []
+    filtered_content = []
     count = 0
 
     for line in lines:
         if "question begins" in line.lower():
             count += 1
-            extracted_content.append("question no." + str(count) + ":\n")
+            filtered_content.append("\nQuestion no." + str(count) + ":\n")
             should_extract = True
         elif "question ends" in line.lower():
             should_extract = False
         elif should_extract:
-            extracted_content.append(line)
+            filtered_content.append(line)
 
-    extracted_output = "\n".join(extracted_content)
+    filtered_output = "\n".join(filtered_content)
 
-    return jsonify({"output": extracted_output})
+    return jsonify({"output": filtered_output})
 
 
 if __name__ == "__main__":
