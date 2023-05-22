@@ -10,9 +10,9 @@ def index():
 
 @app.route("/generate", methods=["POST"])
 def generate():
-    input = request.form["input"]
+    input_text = request.form["input"]
 
-    lines = input.split("\n")
+    lines = input_text.split("\n")
     should_extract = False
     filtered_content = []
     count = 0
@@ -22,8 +22,10 @@ def generate():
             count += 1
             filtered_content.append("\nQuestion no." + str(count) + ":\n")
             should_extract = True
+            filtered_content.append(line)
         elif "question ends" in line.lower():
             should_extract = False
+            filtered_content.append(line)
         elif should_extract:
             filtered_content.append(line)
 
