@@ -24,8 +24,8 @@ def generate():
             should_extract = True
             filtered_content.append(line)
         elif "question ends" in line.lower():
-            should_extract = False
             filtered_content.append(line)
+            should_extract = False
         elif should_extract:
             filtered_content.append(line)
 
