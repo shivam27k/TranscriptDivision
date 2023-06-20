@@ -1,5 +1,4 @@
 <!-- index.html -->
-
 <!DOCTYPE html>
 <html>
 
@@ -110,7 +109,9 @@
     <form id="generateForm" action="/generate" method="POST">
         <textarea name="input" rows="20" cols="50"></textarea><br>
         <button id="generateButton" type="submit">Generate</button>
-        <div id="loaderContainer"></div> <!-- Container for the loading indicator -->
+        <div id="loaderContainer" style="display: none;">
+            <div class="loader"></div>
+        </div> <!-- Container for the loading indicator -->
     </form>
 
     <div id="output"></div>
@@ -121,9 +122,11 @@
 
             const formData = new FormData(event.target);
 
+            // Disable the generate button
+            document.getElementById('generateButton').disabled = true;
+
             // Show the loading indicator
-            document.getElementById('generateButton').style.display = 'none';
-            document.getElementById('loaderContainer').innerHTML = '<div class="loader"></div>';
+            document.getElementById('loaderContainer').style.display = 'block';
 
             fetch(event.target.action, {
                 method: 'POST',
@@ -132,7 +135,10 @@
                 .then(response => response.json())
                 .then(data => {
                     // Hide the loading indicator
-                    document.getElementById('loaderContainer').innerHTML = '';
+                    document.getElementById('loaderContainer').style.display = 'none';
+
+                    // Enable the generate button
+                    document.getElementById('generateButton').disabled = false;
 
                     // Update the output
                     document.getElementById('output').innerText = data.output;

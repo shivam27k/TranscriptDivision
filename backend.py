@@ -18,12 +18,12 @@ def generate():
     count = 0
 
     for line in lines:
-        if "question begins" in line.lower():
+        if "question begins" in line:
             count += 1
             filtered_content.append("\nQuestion no." + str(count) + ":\n")
             should_extract = True
             filtered_content.append(line)
-        elif "question ends" in line.lower():
+        elif "question ends" in line:
             filtered_content.append(line)
             should_extract = False
         elif should_extract:
@@ -31,7 +31,10 @@ def generate():
 
     filtered_output = "\n".join(filtered_content)
 
-    return jsonify({"output": filtered_output})
+    if not filtered_output:
+        return jsonify({"output": "No extracted content found."})
+    else:
+        return jsonify({"output": filtered_output})
 
 
 if __name__ == "__main__":
